@@ -1,4 +1,6 @@
-package teste;
+package janelas;
+
+import botoes.*;
 
 import javax.swing.JFrame;
 import javax.swing.*;
@@ -6,15 +8,13 @@ import java.awt.*;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 
-public class Janelinha extends JFrame implements ComponentListener {
+public class JanelaJogo extends JFrame implements ComponentListener {
 	
 	private JPanel tabuleiro;
 	private JPanel background;
 	private JPanel detalhes;
 	private GridLayout tabuleirao;
 	private BorderLayout teste;
-	
-	public Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	
 	private static int COMPRIMENTO = 800;
 	private static int LARGURA = 600;
@@ -23,7 +23,7 @@ public class Janelinha extends JFrame implements ComponentListener {
 	
 	private JButton[][] botoes = new JButton[QTD_BOTAO][QTD_BOTAO];
 	
-	public Janelinha(String nome) {
+	public JanelaJogo(String nome) {
 		super(nome);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 50, COMPRIMENTO, LARGURA);
@@ -36,26 +36,32 @@ public class Janelinha extends JFrame implements ComponentListener {
 		background = new JPanel();
 		tabuleiro = new JPanel();
 		detalhes = new JPanel();
-		detalhes.setBackground(new Color(100, 255, 100));
+		detalhes.setBackground(new Color(145, 255, 117));
 		detalhes.setPreferredSize(new Dimension(COMPRIMENTO/5, LARGURA));
 		tabuleiro.setPreferredSize(new Dimension(TAM_BOTAO*10, TAM_BOTAO*10));
-		// ComeÃ§arei aqui
+		// Começarei aqui
 		
 		background.setLayout(teste);
 		tabuleiro.setLayout(tabuleirao);
+		detalhes.setLayout(new GridLayout(6, 1, 10, 10));
 		background.add(tabuleiro, BorderLayout.CENTER);
 		background.add(detalhes, BorderLayout.WEST);
+		
+		
 //		background.add(new JLabel("   "), BorderLayout.SOUTH);
 //		background.add(new JPanel());
-		this.getContentPane().add(background);
+		
+		
 		for (int i = 0; i < QTD_BOTAO; i++) {
-			for (int j = 0; j < QTD_BOTAO; j++) {
-				botoes[i][j] = new JButton();
-				botoes[i][j].setPreferredSize(new Dimension(TAM_BOTAO, TAM_BOTAO));
-				botoes[i][j].setBackground(new Color(50, 255, 50));
-				tabuleiro.add(botoes[i][j]);
-			}
-		}
+            for (int j = 0; j < QTD_BOTAO; j++) {
+                botoes[i][j] = new Vazio();
+                botoes[i][j].setPreferredSize(new Dimension(TAM_BOTAO, TAM_BOTAO));
+                botoes[i][j].setBackground(new Color(68, 255, 75));
+                tabuleiro.add(botoes[i][j]);
+            }
+        }
+        detalhes.add(new Bandeira());
+        this.getContentPane().add(background);
 		this.revalidate();
 //		this.repaint();
 	}
