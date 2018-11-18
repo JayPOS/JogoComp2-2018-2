@@ -2,9 +2,10 @@ package principal;
 
 import javax.swing.JFrame;
 import janelas.*;
+import java.awt.event.*;
 
 
-public class PrincipalJogo {
+public class PrincipalJogo implements ActionListener {
 	
 	private JFrame controladorJanela;
 	private static int modoJanela;
@@ -43,6 +44,7 @@ public class PrincipalJogo {
 			jogo.inicializaJogao();
 			
 		}
+		
 	}
 	
 	public static int getMENU() {
@@ -59,6 +61,11 @@ public class PrincipalJogo {
 	}
 	public static int getModoJanela() {
 		return modoJanela;
+	}
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

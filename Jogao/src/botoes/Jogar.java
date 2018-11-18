@@ -7,7 +7,7 @@ import javax.swing.JButton;
 public class Jogar extends JButton {
 
 	public Jogar() {
-		// TODO Auto-generated constructor stub
+		super("Jogar");
 	}
 
 	public Jogar(Icon icon) {
