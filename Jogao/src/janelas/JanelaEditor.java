@@ -158,68 +158,68 @@ public class JanelaEditor extends JFrame implements ComponentListener, ActionLis
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == this.bandeira) {
 			if (this.controleBotao == 0) {
-				this.controleBotao = this.getBANDEIRA();
+				this.controleBotao = JanelaEditor.getBANDEIRA();
 			}
-			else if (this.controleBotao == this.getBANDEIRA()) {
+			else if (this.controleBotao == JanelaEditor.getBANDEIRA()) {
 				this.controleBotao = 0;
 			}
 			else {
-				this.controleBotao = this.getBANDEIRA();
+				this.controleBotao = JanelaEditor.getBANDEIRA();
 			}
 		}
 		else if(e.getSource() == this.bomba) {
 			if (this.controleBotao == 0) {
-				this.controleBotao = this.getBOMBA();
+				this.controleBotao = JanelaEditor.getBOMBA();
 			}
-			else if (this.controleBotao ==  this.getBOMBA()) {
+			else if (this.controleBotao ==  JanelaEditor.getBOMBA()) {
 				this.controleBotao = 0;
 			}
 			else {
-				this.controleBotao = this.getBOMBA();
+				this.controleBotao = JanelaEditor.getBOMBA();
 			}
 		}
 		else if (e.getSource() == this.espiao) {
 			if (this.controleBotao == 0) {
-				this.controleBotao = this.getESPIAO();
+				this.controleBotao = JanelaEditor.getESPIAO();
 			}
-			else if (this.controleBotao == this.getESPIAO()) {
+			else if (this.controleBotao == JanelaEditor.getESPIAO()) {
 				this.controleBotao = 0;
 			}
 			else {
-				this.controleBotao = this.getESPIAO();
+				this.controleBotao = JanelaEditor.getESPIAO();
 			}
 		}
 		else if (e.getSource() == this.soldado) {
 			if (this.controleBotao == 0) {
-				this.controleBotao = this.getSOLDADO();
+				this.controleBotao = JanelaEditor.getSOLDADO();
 			}
-			else if (this.controleBotao == this.getSOLDADO()){
+			else if (this.controleBotao == JanelaEditor.getSOLDADO()){
 				this.controleBotao = 0;
 			}
 			else {
-				this.controleBotao = this.getSOLDADO();
+				this.controleBotao = JanelaEditor.getSOLDADO();
 			}
 		}
 		else if (e.getSource() == this.cabo) {
 			if (this.controleBotao == 0) {
-				this.controleBotao = this.getCABO();
+				this.controleBotao = JanelaEditor.getCABO();
 			}
-			else if (this.controleBotao == this.getCABO()) {
+			else if (this.controleBotao == JanelaEditor.getCABO()) {
 				this.controleBotao = 0;
 			}
 			else {
-				this.controleBotao = this.getCABO();
+				this.controleBotao = JanelaEditor.getCABO();
 			}
 		}
 		else if (e.getSource() == this.marechal) {
 			if (this.controleBotao == 0) {
-				this.controleBotao = this.getMARECHAL();
+				this.controleBotao = JanelaEditor.getMARECHAL();
 			}
-			else if (this.controleBotao == this.getMARECHAL()) {
+			else if (this.controleBotao == JanelaEditor.getMARECHAL()) {
 				this.controleBotao = 0;
 			}
 			else {
-				this.controleBotao = this.getMARECHAL();
+				this.controleBotao = JanelaEditor.getMARECHAL();
 			}
 		}
 		for (int i = 0; i < QTD_BOTAO; i++) {
@@ -227,14 +227,12 @@ public class JanelaEditor extends JFrame implements ComponentListener, ActionLis
             	if (e.getSource() == this.botoes[i][j] && this.botoes[i][j] instanceof botoes.Vazio) {
             		switch(this.controleBotao) {
             		case 1:
-            			this.botoes[i][j] = null;
+            			this.background.remove(tabuleiro);
             			this.botoes[i][j] = new Bandeira();
 //            			if (this.botoes[i][j] instanceof botoes.Bandeira) {
 //            				System.out.println("É sim");
 //            			}
-            			this.invalidate();
-            			this.validate();
-            			this.repaint();
+            			this.background.add(tabuleiro);
             			break;
             		case 2:
             			this.botoes[i][j] = new Bomba();

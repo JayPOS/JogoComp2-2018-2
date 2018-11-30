@@ -3,6 +3,7 @@ package principal;
 import javax.swing.JFrame;
 import janelas.*;
 import java.awt.event.*;
+import java.awt.EventQueue;
 
 
 public class PrincipalJogo implements ActionListener {
@@ -21,7 +22,7 @@ public class PrincipalJogo implements ActionListener {
 		
 	}
 	public void inicializaEditor() {
-		this.controladorJanela = new JanelaEditor("Super Combat");
+		this.controladorJanela = new JanelaEditor2("Super Combat");
 		this.controladorJanela.setVisible(true);
 	}
 	public void inicializaJogao() {
@@ -30,21 +31,32 @@ public class PrincipalJogo implements ActionListener {
 	}
 
 	public static void main(String[] args) {
-		PrincipalJogo jogo = new PrincipalJogo();
-		if (jogo.getModoJanela() == jogo.getMENU()) {
+		try {
+			PrincipalJogo jogo = new PrincipalJogo();
+			if (jogo.getModoJanela() == jogo.getMENU()) {
+				
+			}
+			else if (jogo.modoJanela == jogo.getEDITOR()) {
+				jogo.inicializaEditor();
+			}
+			else if(jogo.getModoJanela() == jogo.getALEATORIO()) {
+				
+			}
+			else if (jogo.modoJanela == jogo.getJOGAR()) {
+				jogo.inicializaJogao();
+				
+			}
+			while (jogo.controladorJanela.isVisible()) {
+				jogo.controladorJanela.repaint();
+			}
+			jogo.controladorJanela.setVisible(false);
+		}
+		catch(Exception e) {
 			
 		}
-		else if (jogo.modoJanela == jogo.getEDITOR()) {
-			jogo.inicializaEditor();
+		finally {
+			System.out.println("Deu erro amigo! Debugue o codigo!");
 		}
-		else if(jogo.getModoJanela() == jogo.getALEATORIO()) {
-			
-		}
-		else if (jogo.modoJanela == jogo.getJOGAR()) {
-			jogo.inicializaJogao();
-			
-		}
-		
 	}
 	
 	public static int getMENU() {
