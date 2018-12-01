@@ -22,7 +22,7 @@ public class JanelaJogo extends JFrame implements ComponentListener {
 	private static int QTD_BOTAO = 5;
 	
 	private JButton[][] botoes = new JButton[QTD_BOTAO][QTD_BOTAO];
-	
+
 	public JanelaJogo(String nome) {
 		super(nome);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -65,6 +65,10 @@ public class JanelaJogo extends JFrame implements ComponentListener {
 		this.revalidate();
 //		this.repaint();
 	}
+	
+	public JanelaJogo() {
+		super("Super Combat");
+	}
 
 	public static int getCOMPRIMENTO() {
 		return COMPRIMENTO;
@@ -76,6 +80,9 @@ public class JanelaJogo extends JFrame implements ComponentListener {
 
 	public static int getTAM_BOTAO() {
 		return TAM_BOTAO;
+	}
+	public JButton[][] getBotoes() {
+		return botoes;
 	}
 
 	@Override

@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 import janelas.*;
 import java.awt.event.*;
 import java.awt.EventQueue;
+import botoes.*;
 
 
 public class PrincipalJogo implements ActionListener {
@@ -11,6 +12,7 @@ public class PrincipalJogo implements ActionListener {
 	private JFrame controladorJanela;
 	private static int modoJanela;
 
+	
 	private static int MENU = 0;
     private static int EDITOR = 1;
     private static int ALEATORIO = 2;
@@ -23,6 +25,7 @@ public class PrincipalJogo implements ActionListener {
 	}
 	public void inicializaEditor() {
 		this.controladorJanela = new JanelaEditor2("Super Combat");
+		this.controladorJanela.setLocationRelativeTo(null);
 		this.controladorJanela.setVisible(true);
 	}
 	public void inicializaJogao() {
@@ -55,7 +58,7 @@ public class PrincipalJogo implements ActionListener {
 			
 		}
 		finally {
-			System.out.println("Deu erro amigo! Debugue o codigo!");
+			System.out.println("Obrigado por jogar!");
 		}
 	}
 	
@@ -74,9 +77,12 @@ public class PrincipalJogo implements ActionListener {
 	public static int getModoJanela() {
 		return modoJanela;
 	}
+	
+	public static void setModoJanela(int modoJanela) {
+		PrincipalJogo.modoJanela = modoJanela;
+	}
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		// TODO Auto-generated method stub
 		
 	}
 
