@@ -24,12 +24,11 @@ public class PrincipalJogo implements ActionListener {
 		
 	}
 	public void inicializaEditor() {
-		this.controladorJanela = new JanelaEditor2("Super Combat");
+		this.controladorJanela = new JanelaEditor2(0);
 		this.controladorJanela.setLocationRelativeTo(null);
 		this.controladorJanela.setVisible(true);
 	}
 	public void inicializaJogao() {
-		this.controladorJanela =  new JanelaJogo("Super Combat");
 		this.controladorJanela.setVisible(true);
 	}
 

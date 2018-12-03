@@ -11,6 +11,7 @@ public class Vazio extends JButton {
 
     public Vazio() {
     	super("Vazio");
+    	this.setBackground(new Color(29, 252, 66));
     	this.setPreferredSize(new Dimension(TAM, TAM));
     	
     }

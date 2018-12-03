@@ -3,12 +3,18 @@ package janelas;
 import botoes.*;
 
 import javax.swing.JFrame;
+import javax.swing.border.EmptyBorder;
+
+import auxiliar.ControleVar;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 
-public class JanelaJogo extends JFrame implements ComponentListener {
+public class JanelaJogo extends JFrame implements ComponentListener, ActionListener {
 	
 	private JPanel tabuleiro;
 	private JPanel background;
@@ -16,15 +22,27 @@ public class JanelaJogo extends JFrame implements ComponentListener {
 	private GridLayout tabuleirao;
 	private BorderLayout teste;
 	
+	private Bandeira bandeira = new Bandeira(2);
+	private Soldado soldado = new Soldado(2);
+	private Bomba bomba = new Bomba(2);
+	private Espiao espiao = new Espiao(2);
+	private CaboArmeiro cabo = new CaboArmeiro(2);
+	private Marechal marechal = new Marechal(2);
+	private Vazio vazio = new Vazio();
+	private Desfazer desfazer = new Desfazer();
+	private Debug debug = new Debug();
+	
+	public ControleVar auxiliar = new ControleVar();
+	
 	private static int COMPRIMENTO = 800;
 	private static int LARGURA = 600;
 	private static int TAM_BOTAO = LARGURA/10;
 	private static int QTD_BOTAO = 5;
 	
-	private JButton[][] botoes = new JButton[QTD_BOTAO][QTD_BOTAO];
+	private JButton[][] botoes;
 
-	public JanelaJogo(String nome) {
-		super(nome);
+	public JanelaJogo(JButton botoes[][]) {
+		super("Super Combat");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 50, COMPRIMENTO, LARGURA);
 		
@@ -43,32 +61,201 @@ public class JanelaJogo extends JFrame implements ComponentListener {
 		
 		background.setLayout(teste);
 		tabuleiro.setLayout(tabuleirao);
-		detalhes.setLayout(new GridLayout(6, 1, 10, 10));
+		detalhes.setBorder(new EmptyBorder(30, 35, 10, 35));
+		detalhes.setLayout(new GridLayout(3, 1, 10, 10));
 		background.add(tabuleiro, BorderLayout.CENTER);
 		background.add(detalhes, BorderLayout.WEST);
 		
 		
 //		background.add(new JLabel("   "), BorderLayout.SOUTH);
 //		background.add(new JPanel());
-		
+		this.botoes = botoes;
 		
 		for (int i = 0; i < QTD_BOTAO; i++) {
-            for (int j = 0; j < QTD_BOTAO; j++) {
-                botoes[i][j] = new Vazio();
-                botoes[i][j].setPreferredSize(new Dimension(TAM_BOTAO, TAM_BOTAO));
-                botoes[i][j].setBackground(new Color(68, 255, 75));
+            for (int j = 0; j < QTD_BOTAO; j++) {;
                 tabuleiro.add(botoes[i][j]);
+                botoes[i][j].addActionListener(this);
             }
         }
-        detalhes.add(new Bandeira());
+		
+		this.debug.addActionListener(this);
+		this.debug.setPreferredSize(new Dimension(50, 50));
+        detalhes.add(this.debug);
+        
+        
         this.getContentPane().add(background);
 		this.revalidate();
 //		this.repaint();
 	}
 	
-	public JanelaJogo() {
-		super("Super Combat");
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == debug) {
+			this.Debugao();
+		}
+		this.movimentos(e);
 	}
+	
+	public void movimentos(ActionEvent k) {
+		for (int i = 0; i < 5; i++) {
+			for (int j = 0; j < 5; j++) {
+				if (k.getSource() == botoes[i][j] && auxiliar.click == 0){
+					if (botoes[i][j] instanceof Vazio) {
+						System.out.println("Vazio");
+					}
+					else {
+						auxiliar.setXeY(i, j);
+						auxiliar.click++;
+						System.out.println("Entrei3");
+					}
+				}
+				if (k.getSource() == botoes[i][j] && auxiliar.click == 1) {
+					System.out.println("Entrei5");
+					if (botoes[i][j] instanceof Vazio) {
+						if (botoes[auxiliar.getX()][auxiliar.getY()] instanceof Espiao) {
+							System.out.println("Entrei1");
+							if (auxiliar.modulo(i-auxiliar.getX()) == 1 && auxiliar.modulo(j-auxiliar.getY()) == 0) {
+	            				tabuleiro.remove(botoes[i][j]);
+	            				botoes[i][j] = new Espiao(0);
+	                			tabuleiro.add(botoes[i][j], i*5+j);
+	                			this.botoes[i][j].addActionListener(this);
+	                			
+	            				tabuleiro.remove(botoes[auxiliar.getX()][auxiliar.getY()]);
+	            				botoes[auxiliar.getX()][auxiliar.getY()] = new Vazio();
+		            			tabuleiro.add(botoes[auxiliar.getX()][auxiliar.getY()], auxiliar.getX()*5+auxiliar.getY());
+		            			this.botoes[auxiliar.getX()][auxiliar.getY()].addActionListener(this);
+	
+								this.revalidate();
+								auxiliar.click = 0;
+							} 
+							else if (auxiliar.modulo(i-auxiliar.getX()) == 0 && auxiliar.modulo(j-auxiliar.getY()) == 1) {
+	            				tabuleiro.remove(botoes[i][j]);
+	            				botoes[i][j] = new Espiao(0);
+	                			tabuleiro.add(botoes[i][j], i*5+j);
+	                			this.botoes[i][j].addActionListener(this);
+	                			
+	            				tabuleiro.remove(botoes[auxiliar.getX()][auxiliar.getY()]);
+	            				botoes[auxiliar.getX()][auxiliar.getY()] = new Vazio();
+		            			tabuleiro.add(botoes[auxiliar.getX()][auxiliar.getY()], auxiliar.getX()*5+auxiliar.getY());
+		            			this.botoes[auxiliar.getX()][auxiliar.getY()].addActionListener(this);
+	
+								this.revalidate();
+								auxiliar.click = 0;
+							}
+						}
+						if (botoes[auxiliar.getX()][auxiliar.getY()] instanceof Marechal) {
+							System.out.println("Entrei2");
+							if (auxiliar.modulo(i-auxiliar.getX()) == 1 && auxiliar.modulo(j-auxiliar.getY()) == 0) {
+	            				tabuleiro.remove(botoes[i][j]);
+	            				botoes[i][j] = new Marechal(0);
+	                			tabuleiro.add(botoes[i][j], i*5+j);
+	                			this.botoes[i][j].addActionListener(this);
+	                			
+	            				tabuleiro.remove(botoes[auxiliar.getX()][auxiliar.getY()]);
+	            				botoes[auxiliar.getX()][auxiliar.getY()] = new Vazio();
+		            			tabuleiro.add(botoes[auxiliar.getX()][auxiliar.getY()], auxiliar.getX()*5+auxiliar.getY());
+		            			this.botoes[auxiliar.getX()][auxiliar.getY()].addActionListener(this);
+	
+								this.revalidate();
+								auxiliar.click = 0;
+							} 
+							else if (auxiliar.modulo(i-auxiliar.getX()) == 0 && auxiliar.modulo(j-auxiliar.getY()) == 1) {
+	            				tabuleiro.remove(botoes[i][j]);
+	            				botoes[i][j] = new Marechal(0);
+	                			tabuleiro.add(botoes[i][j], i*5+j);
+	                			this.botoes[i][j].addActionListener(this);
+	                			
+	            				tabuleiro.remove(botoes[auxiliar.getX()][auxiliar.getY()]);
+	            				botoes[auxiliar.getX()][auxiliar.getY()] = new Vazio();
+		            			tabuleiro.add(botoes[auxiliar.getX()][auxiliar.getY()], auxiliar.getX()*5+auxiliar.getY());
+		            			this.botoes[auxiliar.getX()][auxiliar.getY()].addActionListener(this);
+	
+								this.revalidate();
+								auxiliar.click = 0;
+							}
+							if (botoes[auxiliar.getX()][auxiliar.getY()] instanceof CaboArmeiro) {
+								System.out.println("Entrei4");
+								try {
+									if (auxiliar.modulo(i-auxiliar.getX()) == 1 && auxiliar.modulo(j-auxiliar.getY()) == 0) {
+			            				tabuleiro.remove(botoes[i][j]);
+			            				botoes[i][j] = new CaboArmeiro(0);
+			                			tabuleiro.add(botoes[i][j], i*5+j);
+			                			this.botoes[i][j].addActionListener(this);
+			                			
+			            				tabuleiro.remove(botoes[auxiliar.getX()][auxiliar.getY()]);
+			            				botoes[auxiliar.getX()][auxiliar.getY()] = new Vazio();
+				            			tabuleiro.add(botoes[auxiliar.getX()][auxiliar.getY()], auxiliar.getX()*5+auxiliar.getY());
+				            			this.botoes[auxiliar.getX()][auxiliar.getY()].addActionListener(this);
+			
+										this.revalidate();
+										auxiliar.click = 0;
+									} 
+									else if (auxiliar.modulo(i-auxiliar.getX()) == 0 && auxiliar.modulo(j-auxiliar.getY()) == 1) {
+			            				tabuleiro.remove(botoes[i][j]);
+			            				botoes[i][j] = new CaboArmeiro(0);
+			                			tabuleiro.add(botoes[i][j], i*5+j);
+			                			this.botoes[i][j].addActionListener(this);
+			                			
+			            				tabuleiro.remove(botoes[auxiliar.getX()][auxiliar.getY()]);
+			            				botoes[auxiliar.getX()][auxiliar.getY()] = new Vazio();
+				            			tabuleiro.add(botoes[auxiliar.getX()][auxiliar.getY()], auxiliar.getX()*5+auxiliar.getY());
+				            			this.botoes[auxiliar.getX()][auxiliar.getY()].addActionListener(this);
+			
+										this.revalidate();
+										auxiliar.click = 0;
+									}
+								} catch(IllegalArgumentException e) {
+									System.out.println(e.getLocalizedMessage());
+								}
+								finally {
+									
+								}
+							
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	public void Debugao() {
+		auxiliar.debugador++;
+		if (auxiliar.debugador == 1) {
+			for (int i = 0; i < 2; i++) {
+				for (int j = 0; j < 5; j++) {
+					if (botoes[i][j] instanceof Bandeira) {
+						botoes[i][j].setText(bandeira.getText());
+					}
+					else if (botoes[i][j] instanceof Bomba) {
+						botoes[i][j].setText(bomba.getText());
+					}
+					else if (botoes[i][j] instanceof Espiao) {
+						botoes[i][j].setText(espiao.getText());
+					}
+					else if (botoes[i][j] instanceof Soldado) {
+						botoes[i][j].setText(soldado.getText());
+					}
+					else if (botoes[i][j] instanceof CaboArmeiro) {
+						botoes[i][j].setText(cabo.getText());
+					}
+					else if (botoes[i][j] instanceof Marechal) {
+						botoes[i][j].setText(marechal.getText());
+					}
+				}
+			}
+			this.revalidate();
+		}
+		else if (auxiliar.debugador == 2) {
+			for (int i = 0; i < 2; i++) {
+				for (int j = 0; j < 5; j++) {
+					this.botoes[i][j].setText("Inimigo");
+				}
+			}
+			auxiliar.debugador = 0;
+		}
+	}
+	
 
 	public static int getCOMPRIMENTO() {
 		return COMPRIMENTO;
